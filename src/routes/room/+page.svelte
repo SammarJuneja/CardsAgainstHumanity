@@ -3,7 +3,7 @@
     import "../../app.css";
     import cah from "../../assets/cah.json";
     
-    let whiteCard: any[] = []
+    let whiteCard: any[] = [];
     let blackCard: any;
     
     function getWhiteCrads() {
@@ -20,7 +20,7 @@
         }
          return array;
     }
-    function getBlackCrads() {
+    function getBlackCard() {
         let black = cah[0].black;
         const random = Math.floor(Math.random() * black.length);
         let result: any = black[random];
@@ -29,23 +29,22 @@
 
     onMount(() => {
         whiteCard = getWhiteCrads();
-        blackCard = getBlackCrads();
+        blackCard = getBlackCard();
         console.log(whiteCard, blackCard);
-    })
-    
+    });
 </script>
 
 <div class="min-h-screen bg-gray-400">
     <div class="flex justify-center pt-10">
-        <div class="bg-black mx-60 p-2 rounded-lg text-white">
+        <div class="bg-black w-full mx-10 flex justify-center p-2 rounded-lg shadow-md shadow-white text-white">
             <p>{blackCard}</p>
         </div>
     </div>
-    <div class="flex pt-10 mt-40 gap-2 overflow-x-auto">
+    <div class="flex w-full h-96 mt-40 px-5 gap-2 overflow-x-auto">
         {#each whiteCard as card}
-            <div class="bg-white h-auto w-40 p-2 rounded-lg text-black">
+            <button class="bg-white shadow-md shadow-black h-52 p-2 px-5 rounded-lg text-black">
                 <p>{card.text}</p>
-            </div>
+            </button>
         {/each}
     </div>
     <div class="bg-neutral-800 flex gap-2 bottom-0 fixed w-full text-white p-2">
