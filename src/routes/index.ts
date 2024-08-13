@@ -10,6 +10,7 @@ const io = new Server(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type", "Authorization"]
     },
 });
 
@@ -30,6 +31,6 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(3000, () => {
+app.listen(4000, () => {
     console.log("Server is running on port 3000");
 });

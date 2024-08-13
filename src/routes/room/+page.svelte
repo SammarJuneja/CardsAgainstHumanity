@@ -4,7 +4,7 @@
     import cah from "../../assets/cah.json";
     import { io } from "socket.io-client";
 
-    const socket = io("http://localhost:3000");
+    const socket = io("http://localhost:4000");
 
     let gameRoom = "testRoom";
     let cardPlayed: any;
@@ -47,17 +47,11 @@
         console.log(whiteCard, blackCard);
     });
 
-    socket.on("WebSocket", (message) => {
-        console.log(message)
-    });
-
     socket.emit("joinRoom", gameRoom);
 
     socket.emit("message", (message: any) => {
         console.log("message")
     });
-
-
 </script>
 
 <div class="min-h-screen bg-gray-400">
