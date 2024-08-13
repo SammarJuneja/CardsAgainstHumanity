@@ -2,9 +2,15 @@
     import { onMount } from "svelte";
     import "../../app.css";
     import cah from "../../assets/cah.json";
-    
+    import { io } from "socket.io-client";
+
+    const socket = io("http://localhost:3000");
+
+    let gameRoom = "testRoom";
+    let cardPlayed: any;
     let whiteCard: any[] = [];
     let blackCard: any;
+
     
     function getWhiteCrads() {
         let white = cah[0].white;
@@ -20,6 +26,8 @@
         }
          return array;
     }
+
+
     function getBlackCard() {
         let black = cah[0].black;
         const random = Math.floor(Math.random() * black.length);
@@ -27,11 +35,29 @@
         return result.text;
     }
 
+
+    function playWhiteCard(card: string) {
+        cardPlayed = card;
+        socket.emit("playcard", { gameRoom, card });
+    }
+
     onMount(() => {
         whiteCard = getWhiteCrads();
         blackCard = getBlackCard();
         console.log(whiteCard, blackCard);
     });
+
+    socket.on("WebSocket", (message) => {
+        console.log(message)
+    });
+
+    socket.emit("joinRoom", gameRoom);
+
+    socket.emit("message", (message: any) => {
+        console.log("message")
+    });
+
+
 </script>
 
 <div class="min-h-screen bg-gray-400">
@@ -42,7 +68,9 @@
     </div>
     <div class="flex w-full h-96 mt-40 px-5 gap-2 overflow-x-auto">
         {#each whiteCard as card}
-            <button class="bg-white shadow-md shadow-black h-52 p-2 px-5 rounded-lg text-black">
+            <button on:click={() => {
+                playWhiteCard(card.text);
+            }} class="bg-white shadow-md shadow-black h-52 p-2 px-5 rounded-lg text-black">
                 <p>{card.text}</p>
             </button>
         {/each}
